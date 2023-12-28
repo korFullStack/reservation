@@ -1,47 +1,7 @@
-"use client"
 import React from 'react';
-import Select , { StylesConfig }from 'react-select'
-import makeAnimated from 'react-select/animated';
-interface Options {
-    value : string,
-    label : string
-}
+import Image from "next/image";
 
-const Add = () => {
-    const animatedComponents = makeAnimated();
-    const options = [
-        { value: 'chocolate', label: 'Chocolate' },
-        { value: 'strawberry', label: 'Strawberry' },
-        { value: 'vanilla', label: 'Vanilla' }
-    ]
-    const styles : StylesConfig<Options> = {
-        container : (c)=> ({...c ,
-            padding : '0',
-        }),
-        control : (c)=> ({...c ,
-            borderColor : '#ccc !important',
-            padding : '0.5rem',
-            height: '60px',
-            borderRadius: '0.5rem',
-            outline : 'none !important',
-            boxShadow: 'none'
-        }),
-        multiValue: (c)=> ({...c ,
-            background : '#f5f5f4',
-            borderRadius : '1rem',
-            padding : '2px 4px'
-        }),
-        multiValueRemove : (c)=> ({...c ,
-            '&:hover' : {
-                background : '#f5f5f4',
-            }
-        }),
-        indicatorSeparator: () => ({
-            display : 'none'
-        })
-
-
-    }
+const Edit = () => {
     return (
         <div className="BOOKING_ADD">
             {/*BOOKING HEADER*/}
@@ -120,19 +80,17 @@ const Add = () => {
                     </div>
                     {/*SELECT TABLE*/}
                     <div className="relative">
-                        {/*<input*/}
-                        {/*    type="text" id="input_phone"*/}
-                        {/*    className="block px-6 pb-4 pt-5 w-full text-base bg-transparent rounded-lg border border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"*/}
-                        {/*    placeholder=" "*/}
-                        {/*/>*/}
-                        <Select
-                            closeMenuOnSelect={false}
-                            components={animatedComponents}
-                            defaultValue={[]}
-                            isMulti
-                            options={options}
-                            styles={styles}
+                        <input
+                            type="text" id="input_phone"
+                            className="block px-6 pb-4 pt-5 w-full text-base bg-transparent rounded-lg border border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
+                            placeholder=" "
                         />
+                        <label
+                            htmlFor="input_phone"
+                            className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:-translate-y-4 start-4"
+                        >
+                            Select Talble
+                        </label>
                     </div>
                 </div>
 
@@ -152,12 +110,8 @@ const Add = () => {
                 </div>
 
             </div>
-
-            <div className='hidden fixed inset-0 bg-gray-500/25 z-50 flex items-center justify-center'>
-                <div className="w-[500px] h-[500px] bg-white"></div>
-            </div>
         </div>
     );
 };
 
-export default Add;
+export default Edit;
