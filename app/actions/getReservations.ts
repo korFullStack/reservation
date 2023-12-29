@@ -2,7 +2,9 @@ import client from "@/app/libs/prismadb";
 
 export default async function getReservations(id ? : string) {
     try {
-        const query: any = {};
+        const query: any = {
+            isSeat : false
+        };
         if (id) {
             query.id = id;
         }

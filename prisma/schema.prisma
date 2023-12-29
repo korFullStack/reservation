@@ -18,5 +18,6 @@ model Reservation {
   description String?
   floor Int[]
   guests Int
+  isSeat Boolean @default(false)
   createdAt DateTime @default(now())
 }

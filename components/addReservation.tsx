@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, {useRef, useState} from 'react';
 import Select, { MultiValue, SingleValue, StylesConfig } from 'react-select';
 import makeAnimated from 'react-select/animated';
 import { useRouter } from 'next/navigation';
@@ -79,6 +79,7 @@ const AddReservation = () => {
         }),
     };
     const router = useRouter();
+    const selectRef = useRef<any>(null)
     const handleClick = () => {
         router.push('/');
     };
@@ -104,13 +105,19 @@ const AddReservation = () => {
         }
     };
     const handleCreate = () => {
+        const params: MultiValue<Options> = selectRef.current.getValue()
         const date = data.date ? new Date(data.date) : new Date()
         if (data) {
             axios
-                .post('/api/reservations', { ...data , date })
+                .post('/api/reservations', {
+                    ...data ,
+                    date,
+                    table : params.map(item=>item.value.table),
+                    floor : params.map(item=>item.value.floor),
+                })
                 .then(() => {
                     toast.success('Listing reserved!');
-                    router.push('/');
+                    router.push('/')
                 })
                 .catch(() => {
                     toast.error('Something went wrong.');
@@ -309,7 +316,8 @@ const AddReservation = () => {
                             isMulti
                             options={options}
                             styles={styles}
-                            onChange={handleChangeSelect}
+                            // onChange={handleChangeSelect}
+                            ref={selectRef}
                         />
                     </div>
                 </div>

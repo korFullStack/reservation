@@ -2,6 +2,8 @@
 import React from 'react';
 import {useRouter} from "next/navigation";
 import {IReservation} from "@/app/types";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 interface ListReservationProps {
     listReservation: IReservation[]
@@ -11,6 +13,29 @@ const ListReservation = (props: ListReservationProps) => {
     const router = useRouter()
     const handleAdd = () => {
         router.push('/add')
+    }
+    const handleDelete= (id : string) => {
+        axios
+            .delete(`/api/reservations/${id}`)
+            .then(() => {
+                toast.success('Listing deleted!');
+                router.refresh();
+            })
+            .catch(() => {
+                toast.error('Something went wrong.');
+            });
+    };
+
+    const handleSeat = (id : string) => {
+        axios
+            .put(`/api/reservations/${id}`,{isSeat: true})
+            .then(() => {
+                toast.success('Listing deleted!');
+                router.refresh();
+            })
+            .catch(() => {
+                toast.error('Something went wrong.');
+            });
     }
     return (
         <div className="BOOKING_LIST">
@@ -114,6 +139,10 @@ const ListReservation = (props: ListReservationProps) => {
 
                     <div className="flex gap-5 mt-auto">
                         <button
+                            onClick={(e)=>{
+                                e.stopPropagation()
+                                handleDelete(item.id)
+                            }}
                             className="flex items-center p-4 rounded-xl bg-gradient-to-b from-[#fdfdfc] to-[#f6f6f6] shadow-md shadow-gray-300">
                             <svg width="28" height="28" viewBox="0 0 28 28" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
@@ -129,6 +158,10 @@ const ListReservation = (props: ListReservationProps) => {
                             </svg>
                         </button>
                         <button
+                            onClick={(e)=>{
+                                e.stopPropagation()
+                                handleSeat(item.id)
+                            }}
                             className="flex-grow p-4 rounded-xl bg-gradient-to-b from-[#f0764b] to-[#d84714] shadow-md shadow-gray-300 text-lg text-white text-center">
                             Seated
                         </button>
