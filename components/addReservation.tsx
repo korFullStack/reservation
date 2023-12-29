@@ -122,6 +122,7 @@ const AddReservation = () => {
                 .catch(() => {
                     toast.error('Something went wrong.');
                 });
+            router.refresh()
         }
     };
     return (
