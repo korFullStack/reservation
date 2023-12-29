@@ -108,6 +108,9 @@ const EditReservation = ({reservation} : EditReservationProps) => {
                     toast.success('Listing edited!');
                     router.push('/');
                 })
+                .then(()=> {
+                    router.refresh()
+                })
                 .catch(() => {
                     toast.error('Something went wrong.');
                 });

@@ -116,13 +116,15 @@ const AddReservation = () => {
                     floor : params.map(item=>item.value.floor),
                 })
                 .then(() => {
-                    toast.success('Listing reserved!');
                     router.push('/')
+                })
+                .then(()=> {
+                    toast.success('Listing reserved!');
+                    router.refresh()
                 })
                 .catch(() => {
                     toast.error('Something went wrong.');
                 });
-            router.refresh()
         }
     };
     return (
