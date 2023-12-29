@@ -309,7 +309,7 @@ const AddReservation = () => {
                             isMulti
                             options={options}
                             styles={styles}
-                            // onChange={handleChangeSelect}
+                            onChange={handleChangeSelect}
                         />
                     </div>
                 </div>
