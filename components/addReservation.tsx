@@ -17,6 +17,7 @@ const AddReservation = () => {
         guests: 1,
         date : new Date().toDateString()
     });
+    const [openTimePicker , setOpenTimePicker] = useState(false)
     const animatedComponents = makeAnimated();
     const options: Options[] = [
         {
@@ -235,7 +236,7 @@ const AddReservation = () => {
                     </div>
                     {/*BUTTON TIME*/}
                     <div>
-                        <button className="w-full flex items-center justify-center gap-1 p-4 rounded-lg bg-gradient-to-b from-[#fdfdfc] to-[#f6f6f6] shadow-lg shadow-gray-300">
+                        <button onClick={()=>setOpenTimePicker(true)} className="w-full flex items-center justify-center gap-1 p-4 rounded-lg bg-gradient-to-b from-[#fdfdfc] to-[#f6f6f6] shadow-lg shadow-gray-300">
                             <svg
                                 width="25"
                                 height="24"
@@ -347,10 +348,56 @@ const AddReservation = () => {
                     </button>
                 </div>
             </div>
+            {openTimePicker && (
+                <div onClick={()=>setOpenTimePicker(false)} className="fixed inset-0 bg-gray-500/25 z-50 flex items-center justify-center">
+                    <div onClick={(e)=> {
+                        e.stopPropagation()
+                    }} className="w-[400px] h-[450px] bg-white rounded-2xl p-6">
+                        <div className='flex items-center justify-center gap-2 mb-5'>
+                            <div>
+                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g id=" Round / Action / alarm_on">
+                                        <path id="&#240;&#159;&#148;&#185;Icon Color" fillRule="evenodd" clipRule="evenodd" d="M19.9203 13.4801L14.0537 19.3734L11.9203 17.2401C11.5337 16.8534 10.8937 16.8534 10.507 17.2401C10.1203 17.6268 10.1203 18.2668 10.507 18.6534L13.3337 21.4801C13.7203 21.8668 14.3603 21.8668 14.747 21.4801L21.3337 14.8934C21.7203 14.5068 21.7203 13.8668 21.3337 13.4801C20.947 13.0934 20.307 13.0934 19.9203 13.4801ZM28.2403 6.68011L24.1337 3.26677C23.5737 2.80011 22.7337 2.86677 22.2537 3.44011C21.787 4.00011 21.867 4.84011 22.427 5.32011L26.5203 8.73344C27.0803 9.20011 27.9203 9.13344 28.4003 8.56011C28.8803 8.00011 28.8003 7.16011 28.2403 6.68011ZM5.467 8.73344L9.56033 5.32011C10.1337 4.84011 10.2137 4.00011 9.73367 3.44011C9.267 2.86677 8.427 2.80011 7.867 3.26677L3.76033 6.68011C3.20033 7.16011 3.12033 8.00011 3.60033 8.56011C4.067 9.13344 4.907 9.20011 5.467 8.73344ZM16.0003 5.33344C9.37367 5.33344 4.00033 10.7068 4.00033 17.3334C4.00033 23.9601 9.37367 29.3334 16.0003 29.3334C22.627 29.3334 28.0003 23.9601 28.0003 17.3334C28.0003 10.7068 22.627 5.33344 16.0003 5.33344ZM16.0003 26.6668C10.8537 26.6668 6.667 22.4801 6.667 17.3334C6.667 12.1868 10.8537 8.00011 16.0003 8.00011C21.147 8.00011 25.3337 12.1868 25.3337 17.3334C25.3337 22.4801 21.147 26.6668 16.0003 26.6668Z" fill="#A8A29E"/>
+                                    </g>
+                                </svg>
+                            </div>
+                            <input
+                                type="text"
+                                id="input_phone"
+                                className="focus:border-orange-500 focus:border-opacity-80 block px-6 pb-4 pt-5 w-full text-base bg-transparent rounded-lg border border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
+                            />
+                        </div>
+                        <div className='flex items-center justify-center gap-2'>
+                            <div>
+                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g id=" Round / Action / today">
+                                        <path id="&#240;&#159;&#148;&#185;Icon Color" fillRule="evenodd" clipRule="evenodd" d="M25.3333 3.99992H24V2.66659C24 1.93325 23.4 1.33325 22.6667 1.33325C21.9333 1.33325 21.3333 1.93325 21.3333 2.66659V3.99992H10.6667V2.66659C10.6667 1.93325 10.0667 1.33325 9.33333 1.33325C8.6 1.33325 8 1.93325 8 2.66659V3.99992H6.66667C5.18667 3.99992 4.01333 5.19992 4.01333 6.66658L4 25.3333C4 26.7999 5.18667 27.9999 6.66667 27.9999H25.3333C26.8 27.9999 28 26.7999 28 25.3333V6.66658C28 5.19992 26.8 3.99992 25.3333 3.99992ZM24 25.3333H8C7.26667 25.3333 6.66667 24.7333 6.66667 23.9999V10.6666H25.3333V23.9999C25.3333 24.7333 24.7333 25.3333 24 25.3333ZM10.6667 13.3333H14.6667C15.4 13.3333 16 13.9333 16 14.6666V18.6666C16 19.3999 15.4 19.9999 14.6667 19.9999H10.6667C9.93333 19.9999 9.33333 19.3999 9.33333 18.6666V14.6666C9.33333 13.9333 9.93333 13.3333 10.6667 13.3333Z" fill="#A8A29E"/>
+                                    </g>
+                                </svg>
 
-            <div className="hidden fixed inset-0 bg-gray-500/25 z-50 flex items-center justify-center">
-                <div className="w-[500px] h-[500px] bg-white"></div>
-            </div>
+                            </div>
+                            <input
+                                type="text"
+                                id="input_phone"
+                                className="focus:border-orange-500 focus:border-opacity-80 block px-6 pb-4 pt-5 w-full text-base bg-transparent rounded-lg border border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
+                            />
+                        </div>
+                        <div className='flex w-full h-[170px] items-center justify-center'>
+                            Time
+                        </div>
+                        <div className="flex gap-5 mt-4">
+                            <button  className="flex items-center p-6 rounded-xl bg-gradient-to-b from-[#fdfdfc] to-[#f6f6f6] shadow-md shadow-gray-300">
+                                <svg width="20" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="trash"><g id="trash_2"><path fillRule="evenodd" clipRule="evenodd" d="M8.16667 5.83325V4.66659C8.16667 3.37792 9.21134 2.33325 10.5 2.33325H17.5C18.7887 2.33325 19.8333 3.37792 19.8333 4.66658V5.83325H23.3333C23.9777 5.83325 24.5 6.35559 24.5 6.99992C24.5 7.64425 23.9777 8.16658 23.3333 8.16658H22.1667V20.9999C22.1667 22.9329 20.5997 24.4999 18.6667 24.4999H9.33333C7.40034 24.4999 5.83333 22.9329 5.83333 20.9999V8.16658H4.66667C4.02234 8.16658 3.5 7.64425 3.5 6.99992C3.5 6.35559 4.02234 5.83325 4.66667 5.83325H8.16667ZM10.5 4.66659H17.5V5.83325H10.5V4.66659ZM8.16667 8.16658H19.8333V20.9999C19.8333 21.6442 19.311 22.1666 18.6667 22.1666H9.33333C8.689 22.1666 8.16667 21.6442 8.16667 20.9999V8.16658Z" fill="#DC2626"/><path d="M17.5 10.4999H15.1667V19.8333H17.5V10.4999Z" fill="#DC2626"/><path d="M12.8333 10.4999H10.5V19.8333H12.8333V10.4999Z" fill="#DC2626"/></g></g></svg>
+                            </button>
+                            <button  className="flex-grow p-6 rounded-xl bg-gradient-to-b from-[#f0764b] to-[#d84714] shadow-md shadow-gray-300 text-lg text-white text-center">
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+
             <Toaster />
         </div>
     );
