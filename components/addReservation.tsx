@@ -13,6 +13,8 @@ interface Options {
 }
 
 const AddReservation = () => {
+    const newHour = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+    const newDate = new Date().toLocaleString('en-US', { month: 'short', day: 'numeric' })
     const [data, setData] = useState<Partial<IReservation>>({
         guests: 1,
         date : new Date().toDateString()
@@ -93,16 +95,6 @@ const AddReservation = () => {
         const guests = data.guests || 0;
         if (guests > 0) {
             setData((pre) => ({ ...pre, guests: guests - 1 }));
-        }
-    };
-    const handleChangeSelect = (
-        params: MultiValue<Options> | SingleValue<Options>
-    ) => {
-        if (Array.isArray(params)) {
-            setData(pre=> ({...pre,
-                table : params.map(item=>item.value.table),
-                floor : params.map(item=>item.value.floor),
-            }))
         }
     };
     const handleCreate = () => {
@@ -254,7 +246,7 @@ const AddReservation = () => {
                                     />
                                 </g>
                             </svg>
-                            <span>Today, 2:00 PM</span>
+                            <span>Today, {newHour}</span>
                         </button>
                     </div>
                 </div>
@@ -364,6 +356,7 @@ const AddReservation = () => {
                             <input
                                 type="text"
                                 id="input_phone"
+                                value={newHour}
                                 className="focus:border-orange-500 focus:border-opacity-80 block px-6 pb-4 pt-5 w-full text-base bg-transparent rounded-lg border border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
                             />
                         </div>
@@ -378,6 +371,7 @@ const AddReservation = () => {
                             </div>
                             <input
                                 type="text"
+                                value={newDate}
                                 id="input_phone"
                                 className="focus:border-orange-500 focus:border-opacity-80 block px-6 pb-4 pt-5 w-full text-base bg-transparent rounded-lg border border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
                             />
