@@ -5,6 +5,7 @@ import makeAnimated from 'react-select/animated';
 import { useRouter } from 'next/navigation';
 import {toast, Toaster} from 'react-hot-toast';
 import axios from 'axios';
+import {Timeit} from "react-timeit";
 import { IReservation } from '@/app/types';
 
 interface Options {
@@ -376,8 +377,8 @@ const AddReservation = () => {
                                 className="focus:border-orange-500 focus:border-opacity-80 block px-6 pb-4 pt-5 w-full text-base bg-transparent rounded-lg border border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
                             />
                         </div>
-                        <div className='flex w-full h-[180px] items-center justify-center'>
-                            Time Picker
+                        <div className='flex w-full h-[190px] items-center justify-center'>
+                            <Timeit onChange={(value) => console.log('value',value)}/>
                         </div>
                         <div className="flex gap-5 mt-4">
                             <button  className="flex items-center p-4 rounded-xl bg-gradient-to-b from-[#fdfdfc] to-[#f6f6f6] shadow-md shadow-gray-300">

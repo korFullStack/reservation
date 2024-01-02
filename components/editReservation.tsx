@@ -7,6 +7,7 @@ import makeAnimated from "react-select/animated";
 import Select, {MultiValue, SingleValue, StylesConfig} from "react-select";
 import axios from "axios";
 import toast, {Toaster} from "react-hot-toast";
+import { Timeit } from 'react-timeit';
 interface EditReservationProps {
     reservation: IReservation
 }
@@ -274,7 +275,7 @@ const EditReservation = ({reservation} : EditReservationProps) => {
                             />
                         </div>
                         <div className='flex w-full h-[180px] items-center justify-center'>
-                            Time Picker
+                            <Timeit onChange={(value) => console.log('value',value)}/>
                         </div>
                         <div className="flex gap-5 mt-4">
                             <button  className="flex items-center p-4 rounded-xl bg-gradient-to-b from-[#fdfdfc] to-[#f6f6f6] shadow-md shadow-gray-300">

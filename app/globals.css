@@ -11,3 +11,10 @@ body {
   color: var(--text-color);
   background: var(--background-color);
 }
+div[class^='timeit-selected'], div[class*=' timeit-selected']{
+  color: #5f5c5b;
+  font-weight: 500;
+}
+div[class^='timeit-control'] > svg > path{
+  fill: #a8a29e;
+}
