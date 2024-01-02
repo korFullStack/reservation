@@ -224,7 +224,7 @@ const EditReservation = ({reservation} : EditReservationProps) => {
 
                 {/*ROW_ITEM*/}
                 <div className="bg-white">
-                    <textarea cols={30} rows={10} className="block px-6 pb-4 pt-5 w-full text-base bg-transparent rounded-lg border border-1 border-gray-300 resize-none outline-none" placeholder="Add Note...&#9998;"></textarea>
+                    <textarea value={data?.description || ''} onChange={e=> setData(pre=>({...pre , description : e.target.value}))} cols={30} rows={10} className="block px-6 pb-4 pt-5 w-full text-base bg-transparent rounded-lg border border-1 border-gray-300 resize-none outline-none" placeholder="Add Note...&#9998;"></textarea>
                 </div>
 
                 {/*ACTION BUTTON*/}

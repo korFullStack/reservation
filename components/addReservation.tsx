@@ -14,13 +14,15 @@ interface Options {
 }
 
 const AddReservation = () => {
-    const newHour = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
-    const newDate = new Date().toLocaleString('en-US', { month: 'short', day: 'numeric' })
+    const newHour = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: false })
+    const newDate = new Date().toISOString().split('T')[0]
+    const [hour , setHour] = useState(newHour)
+    const [date , setDate] = useState(newDate)
     const [data, setData] = useState<Partial<IReservation>>({
         guests: 1,
-        date : new Date().toDateString()
     });
     const [openTimePicker , setOpenTimePicker] = useState(false)
+    const [timeCreate , setTimeCreate] = useState<Date>()
     const animatedComponents = makeAnimated();
     const options: Options[] = [
         {
@@ -100,12 +102,11 @@ const AddReservation = () => {
     };
     const handleCreate = () => {
         const params: MultiValue<Options> = selectRef.current.getValue()
-        const date = data.date ? new Date(data.date) : new Date()
         if (data) {
             axios
                 .post('/api/reservations', {
                     ...data ,
-                    date,
+                    date : timeCreate,
                     table : params.map(item=>item.value.table),
                     floor : params.map(item=>item.value.floor),
                 })
@@ -121,6 +122,15 @@ const AddReservation = () => {
                 });
         }
     };
+
+    const handleSaveTime = () => {
+        const dateCreate = new Date(date)
+        const hoursCreate = Number(hour.split(':')[0])
+        const minutesCreate = Number(hour.split(':')[1])
+        dateCreate.setHours(hoursCreate, minutesCreate)
+        setTimeCreate(dateCreate)
+        setOpenTimePicker(false)
+    }
     return (
         <div className="BOOKING_ADD">
             {/*BOOKING HEADER*/}
@@ -247,7 +257,7 @@ const AddReservation = () => {
                                     />
                                 </g>
                             </svg>
-                            <span>Today, {newHour}</span>
+                            <span>{timeCreate ? hour : `Today ,${newHour}`}</span>
                         </button>
                     </div>
                 </div>
@@ -356,8 +366,8 @@ const AddReservation = () => {
                             </div>
                             <input
                                 type="text"
-                                id="input_phone"
-                                value={newHour}
+                                disabled
+                                value={hour}
                                 className="focus:border-orange-500 focus:border-opacity-80 block px-6 pb-4 pt-5 w-full text-base bg-transparent rounded-lg border border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
                             />
                         </div>
@@ -371,20 +381,20 @@ const AddReservation = () => {
 
                             </div>
                             <input
-                                type="text"
-                                value={newDate}
-                                id="input_phone"
+                                type="date"
+                                value={date}
+                                onChange={(e)=> setDate(e.target.value)}
                                 className="focus:border-orange-500 focus:border-opacity-80 block px-6 pb-4 pt-5 w-full text-base bg-transparent rounded-lg border border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
                             />
                         </div>
                         <div className='flex w-full h-[190px] items-center justify-center'>
-                            <Timeit onChange={(value) => console.log('value',value)}/>
+                            <Timeit defualtValue={newHour} onChange={(value) => setHour(value)}/>
                         </div>
                         <div className="flex gap-5 mt-4">
                             <button  className="flex items-center p-4 rounded-xl bg-gradient-to-b from-[#fdfdfc] to-[#f6f6f6] shadow-md shadow-gray-300">
                                 <svg width="20" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="trash"><g id="trash_2"><path fillRule="evenodd" clipRule="evenodd" d="M8.16667 5.83325V4.66659C8.16667 3.37792 9.21134 2.33325 10.5 2.33325H17.5C18.7887 2.33325 19.8333 3.37792 19.8333 4.66658V5.83325H23.3333C23.9777 5.83325 24.5 6.35559 24.5 6.99992C24.5 7.64425 23.9777 8.16658 23.3333 8.16658H22.1667V20.9999C22.1667 22.9329 20.5997 24.4999 18.6667 24.4999H9.33333C7.40034 24.4999 5.83333 22.9329 5.83333 20.9999V8.16658H4.66667C4.02234 8.16658 3.5 7.64425 3.5 6.99992C3.5 6.35559 4.02234 5.83325 4.66667 5.83325H8.16667ZM10.5 4.66659H17.5V5.83325H10.5V4.66659ZM8.16667 8.16658H19.8333V20.9999C19.8333 21.6442 19.311 22.1666 18.6667 22.1666H9.33333C8.689 22.1666 8.16667 21.6442 8.16667 20.9999V8.16658Z" fill="#DC2626"/><path d="M17.5 10.4999H15.1667V19.8333H17.5V10.4999Z" fill="#DC2626"/><path d="M12.8333 10.4999H10.5V19.8333H12.8333V10.4999Z" fill="#DC2626"/></g></g></svg>
                             </button>
-                            <button  className="flex-grow p-4 rounded-xl bg-gradient-to-b from-[#f0764b] to-[#d84714] shadow-md shadow-gray-300 text-lg text-white text-center">
+                            <button onClick={handleSaveTime}  className="flex-grow p-4 rounded-xl bg-gradient-to-b from-[#f0764b] to-[#d84714] shadow-md shadow-gray-300 text-lg text-white text-center">
                                 Save
                             </button>
                         </div>
